@@ -1,6 +1,7 @@
 import { createBrowserRouter, Outlet, redirect } from "react-router-dom";
 import { Spinner } from "../components/ui/spinner";
 import { ProtectedRoute } from "../lib/auth";
+import { DashboardLayout } from "@/components/layouts/dashboard-layout";
 
 const checkAuth = () => {
   return localStorage.getItem("token"); // or cookies/session
@@ -33,11 +34,13 @@ export const createAppRouter = () =>
     },
     {
       path: "/app",
-       element: (
-          <ProtectedRoute>
+      element: (
+        <ProtectedRoute>
+          <DashboardLayout>
             <Outlet />
-          </ProtectedRoute>
-        ),
+          </DashboardLayout>
+        </ProtectedRoute>
+      ),
       hydrateFallbackElement: (
         <div className="flex h-screen w-screen items-center justify-center">
           <Spinner />

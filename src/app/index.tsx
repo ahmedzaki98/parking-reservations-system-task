@@ -1,9 +1,9 @@
-import React, { useState } from "react";
 import { AppRouter } from "./router";
 import { AuthLoader } from "../lib/auth";
 import { Spinner } from "../components/ui/spinner";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { queryConfig } from "../lib/react-query";
+import React,{ useState } from "react";
 
 export const App = () => {
   const [queryClient] = useState(

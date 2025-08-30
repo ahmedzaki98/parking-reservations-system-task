@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 type LoginFormValues = z.infer<typeof loginType>;
 
 const LoginForm = () => {
-      const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -32,7 +32,7 @@ const LoginForm = () => {
 
   const login = useLogin({
     onSuccess: () => {
-      navigate('/app/dashboard', {
+      navigate("/app/dashboard", {
         replace: true,
       });
     },
@@ -77,13 +77,12 @@ const LoginForm = () => {
                 <Button
                   disabled={isSubmitting}
                   type="submit"
-                  className="w-full border-0!"
+                  className="w-full border-0! bg-sidebar"
                 >
                   {isSubmitting ? "Logging in..." : "Login"}
                 </Button>
               </div>
             </div>
-            
           </form>
         </CardContent>
       </Card>
