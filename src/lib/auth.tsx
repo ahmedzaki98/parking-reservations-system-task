@@ -1,9 +1,10 @@
 import { z } from "zod";
-import { api, getToken } from "./api-client";
+import { api } from "./api-client";
 import { configureAuth } from "react-query-auth";
 import { Navigate } from "react-router-dom";
+import { useAuthStore } from "./auth.store";
 
-interface UserEntity {
+export type UserEntity ={
   id: string;
   username: string;
   role: string;
@@ -31,18 +32,18 @@ const loginWithEmailAndPassword = (data: LoginInput): Promise<AuthResponse> => {
 const authConfig = {
   loginFn: async (data: LoginInput) => {
     const response = await loginWithEmailAndPassword(data);
-    console.log("response: ", response);
+    
     //save token on local storage
     if (response?.data?.token) {
       localStorage.setItem("token", response.data.token);
     }
-    // const user = await getUser();
-
-    // useAuthStore.getState().setUser(user);
-    // return user;
+    const user = response.data.user;
+    useAuthStore.getState().setUser(user);
+    return user;
   },
   logoutFn: async () => {
     localStorage.removeItem("token");
+    useAuthStore.getState().clearUser();
     return null;
   },
   userFn: async () => {
@@ -56,13 +57,20 @@ const authConfig = {
   },
 };
 // eslint-disable-next-line react-refresh/only-export-components
-export const { useLogin, useLogout, AuthLoader } = configureAuth(authConfig);
+export const {useUser, useLogin, useLogout, AuthLoader } = configureAuth(authConfig);
 
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const token = getToken();
+  // const token = getToken();
+  // // const location = useLocation();
+
+  // if (!token) {
+  //   return <Navigate to="/auth/login" replace />;
+  // }
+  const user = useUser();
+
   // const location = useLocation();
 
-  if (!token) {
+  if (!user.data) {
     return <Navigate to="/auth/login" replace />;
   }
   return children;

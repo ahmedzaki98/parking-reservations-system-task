@@ -1,6 +1,6 @@
 export const DashboardRoute = () => {
   return (
-    <div className="relative flex min-h-screen flex-col justify-center min-w-screen">
+    <div className="relative flex  flex-col justify-center">
       test{" "}
     </div>
   );
