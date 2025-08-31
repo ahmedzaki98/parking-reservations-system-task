@@ -77,7 +77,7 @@ const LoginForm = () => {
                 <Button
                   disabled={isSubmitting}
                   type="submit"
-                  className="w-full border-0! bg-sidebar"
+                  className="w-full border-0! bg-sidebar text-white hover:text-muted"
                 >
                   {isSubmitting ? "Logging in..." : "Login"}
                 </Button>

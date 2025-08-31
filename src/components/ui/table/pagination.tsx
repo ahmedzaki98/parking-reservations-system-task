@@ -1,4 +1,4 @@
-import React from "react";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { Button } from "../button";
 
 const Pagination = ({
@@ -7,29 +7,31 @@ const Pagination = ({
   totalPages,
 }: {
   page: number;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
+  setPage: (page: number) => void;
   totalPages: number;
 }) => {
   return (
     <div className="flex items-center justify-between mt-4">
       <Button
-        onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+        onClick={() => setPage(Math.max(page - 1, 1))}
         disabled={page === 1}
-        className="px-3 py-1 border rounded disabled:opacity-50"
+        className="px-3 py-1 border rounded-lg disabled:opacity-50"
       >
+        <ChevronLeftIcon className="size-4" />
         Previous
       </Button>
 
-      <span>
+      <span className="text-muted-foreground">
         Page {page} of {totalPages}
       </span>
 
       <Button
-        onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+        onClick={() => setPage(Math.min(page + 1, totalPages))}
         disabled={page === totalPages}
-        className="px-3 py-1 border rounded disabled:opacity-50"
+        className="px-3 py-1 border rounded-lg disabled:opacity-50"
       >
         Next
+        <ChevronRightIcon className="size-4" />
       </Button>
     </div>
   );

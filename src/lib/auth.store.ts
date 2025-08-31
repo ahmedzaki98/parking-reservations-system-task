@@ -3,19 +3,17 @@ import { persist } from "zustand/middleware";
 import type { UserEntity } from "./auth";
 
 interface AuthState {
-  user: UserEntity | null;
-  setUser: (user: UserEntity | null) => void;
-  clearUser: () => void;
+  user: UserEntity | undefined;
+  setUser: (user: UserEntity | undefined) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
-      user: null,
-      setUser: (user: UserEntity | null) => {
+      user: undefined,
+      setUser: (user: UserEntity | undefined) => {
         set({ user });
       },
-      clearUser: () => set({ user: null }),
     }),
     {
       name: "user",
