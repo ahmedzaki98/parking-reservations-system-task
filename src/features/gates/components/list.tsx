@@ -1,13 +1,15 @@
 import { useGates } from "../api/get";
 import { DataTable } from "@/components/ui/table/data-table";
-import { useGatesStore } from "../store/gates.store";
 
 const GatesList = () => {
-  const { data, refetch } = useGates();
+  const { data } = useGates();
   const gates = Array.isArray(data?.data) ? data.data : [];
-  const { page, setPage } = useGatesStore();
-  const paginatedData = gates.slice((page - 1) * 10, page * 10);
 
+  //  const subscribeToGateMutation = useSubscribeToGate();
+
+  //   const handleSubscribeToGate = (id: string) => {
+  //     subscribeToGateMutation.mutate(id);
+  //   };
   return (
     <div className="m-auto flex w-[95vw] flex-col md:w-full">
       <h2 className="mb-8 text-lg font-semibold">Parking Gates</h2>
@@ -26,8 +28,16 @@ const GatesList = () => {
               accessorKey: "zoneIds",
               header: "Zone",
               cell: ({ row }) => {
-                const gateIds = row?.original?.zoneIds;
-                return <span>{gateIds.join(", ")}</span>;
+                const zoneIds = row?.original?.zoneIds;
+                return (
+                  <>
+                    {zoneIds &&
+                      zoneIds.length > 0 &&
+                      zoneIds?.map((zone, index) => {
+                        return <li key={index}>{zone}</li>;
+                      })}
+                  </>
+                );
               },
             },
             {
@@ -39,9 +49,7 @@ const GatesList = () => {
               },
             },
           ]}
-          data={paginatedData}
-          page={page}
-          setPage={setPage}
+          data={gates}
         />
       </div>
     </div>

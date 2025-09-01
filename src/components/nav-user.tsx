@@ -1,4 +1,4 @@
-import {  ChevronsUpDown, LogOut } from "lucide-react";
+import { ChevronsUpDown, LogOut } from "lucide-react";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -36,13 +36,13 @@ export function NavUser() {
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 {/* <AvatarImage src={user?.avatar} alt={user?.username} /> */}
-                <AvatarFallback className="rounded-lg">
+                <AvatarFallback className="rounded-lg text-primary">
                   {user?.username?.substring(0, 2).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user?.username}</span>
-                <span className="truncate text-xs">{user?.role}</span>
+                <span className="truncate text-primary text-xs">{user?.role}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -57,11 +57,15 @@ export function NavUser() {
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   {/* <AvatarImage src={user.avatar} alt={user.name} /> */}
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  <AvatarFallback className="rounded-lg">
+                    {user?.username?.substring(0, 2).toUpperCase()}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{user?.username}</span>
-                  <span className="truncate text-xs">{user?.role}</span>
+                  <span className="truncate text-primary text-xs">
+                    {user?.role}
+                  </span>
                 </div>
               </div>
             </DropdownMenuLabel>
@@ -71,8 +75,9 @@ export function NavUser() {
                 logout.mutate({});
                 nav("/auth/login");
               }}
+              className="text-primary"
             >
-              <LogOut />
+              <LogOut className="text-primary" />
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>

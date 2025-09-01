@@ -1,20 +1,17 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { Button } from "../button";
+import { Table } from "@tanstack/react-table";
 
-const Pagination = ({
-  page,
-  setPage,
-  totalPages,
-}: {
-  page: number;
-  setPage: (page: number) => void;
-  totalPages: number;
-}) => {
+type PaginationProps<TData> = {
+  table: Table<TData>;
+};
+
+const Pagination = <TData,>({ table }: PaginationProps<TData>) => {
   return (
     <div className="flex items-center justify-between mt-4">
       <Button
-        onClick={() => setPage(Math.max(page - 1, 1))}
-        disabled={page === 1}
+        onClick={() => table.previousPage()}
+        disabled={!table.getCanPreviousPage()}
         className="px-3 py-1 border rounded-lg disabled:opacity-50"
       >
         <ChevronLeftIcon className="size-4" />
@@ -22,12 +19,13 @@ const Pagination = ({
       </Button>
 
       <span className="text-muted-foreground">
-        Page {page} of {totalPages}
+        Page {table.getState().pagination.pageIndex + 1} of{" "}
+        {table.getPageCount()}
       </span>
 
       <Button
-        onClick={() => setPage(Math.min(page + 1, totalPages))}
-        disabled={page === totalPages}
+        onClick={() => table.nextPage()}
+        disabled={!table.getCanNextPage()}
         className="px-3 py-1 border rounded-lg disabled:opacity-50"
       >
         Next

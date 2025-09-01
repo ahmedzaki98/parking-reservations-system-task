@@ -19,7 +19,7 @@ export const useUpdateCategoriesRate = () => {
       queryClient.invalidateQueries({
         queryKey: ["categoriesGrid"],
       });
-      ShowToast({ type: "success", message: "category updated successfully" });
+      ShowToast({ type: "success", message: "Category updated successfully" });
     },
     onError: () => {
       ShowToast({ type: "error", message: "Something went wrong" });

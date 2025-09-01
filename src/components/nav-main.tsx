@@ -1,4 +1,4 @@
-import { ChevronRight, type LucideIcon } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
@@ -12,25 +12,20 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { NavLink, useLocation } from "react-router-dom";
 import { cn } from "@/utils/cn";
+import type { SideNavigationItem } from "./app-sidebar";
 
-export function NavMain({
-  items,
-}: {
-  items: {
-    title: string;
-    to: string;
-    icon?: LucideIcon;
-    isActive?: boolean;
-    items?: {
-      title: string;
-      to: string;
-    }[];
-  }[];
-}) {
+type ComponentProps = {
+  items: SideNavigationItem[];
+};
+
+export function NavMain({ items }: ComponentProps) {
   const location = useLocation();
+  const { toggleSidebar, isMobile } = useSidebar();
+
   const currentPath = location.pathname;
   const parts = currentPath?.split("/");
   const activeCurrentPath = parts[2];
@@ -59,22 +54,23 @@ export function NavMain({
               <CollapsibleTrigger asChild>
                 {item?.items ? (
                   <SidebarMenuButton tooltip={item.title}>
-                    {item.icon && <item.icon />}
+                    {item.icon && <item.icon color="var(--color-primary)" />}
                     <span>{item.title}</span>
-                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                    <ChevronRight className="ml-auto text-primary transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                   </SidebarMenuButton>
                 ) : (
                   <NavLink to={item.to}>
                     <SidebarMenuButton
+                      tooltip={item.title}
                       className={cn(
-                        "w-full p-2! flex items-start justify-start hover:bg-sidebar-accent! hover:text-sidebar-accent-foreground! h-8 text-sm",
-                        currentPath.endsWith(item.to) ||
-                          (handleIsActive(item.to)
-                            ? "bg-sidebar-foreground text-primary-foreground! font-medium hover:text-primary!"
-                            : "")
+                        "w-full p-2! flex items-start justify-start hover:bg-sidebar-accent hover:text-sidebar-accent-foreground! h-8 text-sm",
+                        currentPath.endsWith(item.to) || handleIsActive(item.to)
+                          ? "bg-muted text-primary font-medium hover:text-primary!"
+                          : ""
                       )}
+                      onClick={() => isMobile && toggleSidebar()}
                     >
-                      {item.icon && <item.icon />}
+                      {item.icon && <item.icon color="var(--color-primary)" />}
                       <span>{item.title}</span>
                     </SidebarMenuButton>
                   </NavLink>
@@ -87,7 +83,10 @@ export function NavMain({
                       (subItem) =>
                         subItem && (
                           <SidebarMenuSubItem key={subItem.title}>
-                            <SidebarMenuSubButton asChild>
+                            <SidebarMenuSubButton
+                              onClick={() => isMobile && toggleSidebar()}
+                              asChild
+                            >
                               <NavLink
                                 key={subItem.title}
                                 to={subItem.to}
@@ -95,7 +94,7 @@ export function NavMain({
                                 className={cn(
                                   currentPath.endsWith(subItem.to) ||
                                     handleIsActive(subItem.to)
-                                    ? "bg-sidebar-foreground text-primary-foreground! font-medium hover:bg-sidebar-foreground hover:text-transparent"
+                                    ? "bg-sidebar-primary text-primary-foreground! font-medium hover:text-primary!"
                                     : ""
                                 )}
                               >

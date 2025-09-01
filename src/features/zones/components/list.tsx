@@ -1,11 +1,11 @@
 import { useZones } from "../api/get";
 import { DataTable } from "@/components/ui/table/data-table";
-import { useZonesStore } from "../store/zones.store";
 import { CircleCheckBig, CircleX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getInitialColumnVisibility } from "@/utils/helper";
 import { useAuthStore } from "@/lib/auth.store";
 import { useMarkZone } from "../api/change-status";
+import { cn } from "@/utils/cn";
 import { useWebSocketStore } from "@/lib/websocket-store";
 
 const ZonesList = () => {
@@ -14,8 +14,6 @@ const ZonesList = () => {
 
   const { data } = useZones();
   const zones = Array.isArray(data?.data) ? data.data : [];
-  const { page, setPage } = useZonesStore();
-  const paginatedData = zones.slice((page - 1) * 10, page * 10);
 
   const tableRoles = getInitialColumnVisibility(
     ["employee"],
@@ -41,7 +39,7 @@ const ZonesList = () => {
 
   return (
     <div className="m-auto flex w-[95vw] flex-col md:w-full">
-      <h2 className="mb-8 text-lg font-semibold">Zones List</h2>
+      <h2 className="text-primary mb-8 text-lg font-semibold">Zones List</h2>
       <div className="flex gap-4 px-3 md:px-0">
         <DataTable
           tableRoles={tableRoles}
@@ -67,7 +65,15 @@ const ZonesList = () => {
               header: "Gates",
               cell: ({ row }) => {
                 const gateIds = row?.original?.gateIds;
-                return <span>{gateIds.join(", ")}</span>;
+                return (
+                  <>
+                    {gateIds &&
+                      gateIds.length > 0 &&
+                      gateIds?.map((gate, index) => {
+                        return <li key={index}>{gate}</li>;
+                      })}
+                  </>
+                );
               },
             },
             {
@@ -112,29 +118,23 @@ const ZonesList = () => {
                 const open = row?.original?.open;
                 const id = row?.original?.id;
                 const gateIds = row?.original?.gateIds;
-                return open ? (
+
+                return (
                   <Button
                     variant="outline"
-                    className="hover:bg-red-500! text-white px-3 py-1 rounded-xl"
+                    className={cn(
+                      "text-white px-3 py-1 rounded-xl",
+                      open ? "hover:bg-red-500!" : "hover:bg-green-500!"
+                    )}
                     onClick={() => handleMarkZoneOpenClose(id, gateIds)}
                   >
-                    Close
-                  </Button>
-                ) : (
-                  <Button
-                    variant="outline"
-                    className="hover:bg-green-500! text-white px-3 py-1 rounded-xl"
-                    onClick={() => handleMarkZoneOpenClose(id, gateIds)}
-                  >
-                    Open
+                    {open ? "Close" : "Open"}
                   </Button>
                 );
               },
             },
           ]}
-          data={paginatedData}
-          page={page}
-          setPage={setPage}
+          data={zones}
         />
       </div>
     </div>

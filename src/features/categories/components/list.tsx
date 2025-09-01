@@ -3,16 +3,16 @@ import { DataTable } from "@/components/ui/table/data-table";
 import { Button } from "@/components/ui/button";
 import { getInitialColumnVisibility } from "@/utils/helper";
 import { useAuthStore } from "@/lib/auth.store";
-import { useCategoriesStore } from "../store/categories.store";
 import { useUpdateCategoriesRate } from "../api/change-status";
+import { useWebSocketStore } from "@/lib/websocket-store";
 
 const CategoriesList = () => {
   const { user } = useAuthStore();
-  const { data, refetch } = useParkingCategories();
-  const zones = Array.isArray(data?.data) ? data.data : [];
-  const { page, setPage } = useCategoriesStore();
-  const paginatedData = zones.slice((page - 1) * 10, page * 10);
+  const { data } = useParkingCategories();
+  const { subscribeToGate } = useWebSocketStore();
 
+  const zones = Array.isArray(data?.data) ? data.data : [];
+  
   const tableRoles = getInitialColumnVisibility(
     ["employee"],
     {
@@ -26,8 +26,9 @@ const CategoriesList = () => {
 
   const markZoneOpenCloseMutation = useUpdateCategoriesRate();
 
-  const handleUpdateCategoryRate = (id: string) => {
+  const handleUpdateCategoryRate = (id: string, gateId: string) => {
     markZoneOpenCloseMutation.mutate(id);
+    subscribeToGate(gateId);
   };
 
   return (
@@ -65,11 +66,14 @@ const CategoriesList = () => {
               accessorKey: "actions",
               header: "Actions",
               cell: ({ row }) => {
+                const gateId = row?.original?.id;
                 return (
                   <Button
                     variant="outline"
                     className="text-white px-3 py-1 rounded-xl"
-                    onClick={() => handleUpdateCategoryRate(row.original.id)}
+                    onClick={() =>
+                      handleUpdateCategoryRate(row.original.id, gateId)
+                    }
                   >
                     Update
                   </Button>
@@ -77,9 +81,7 @@ const CategoriesList = () => {
               },
             },
           ]}
-          data={paginatedData}
-          page={page}
-          setPage={setPage}
+          data={zones}
         />
       </div>
     </div>

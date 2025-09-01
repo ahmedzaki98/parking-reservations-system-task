@@ -14,8 +14,8 @@ export const App = () => {
   const { connect } = useWebSocketStore();
 
   useEffect(() => {
-    connect();
-  }, [connect]);
+    connect(queryClient);
+  }, [connect, queryClient]);
 
   return (
     <React.Suspense

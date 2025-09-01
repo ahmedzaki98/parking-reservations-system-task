@@ -8,7 +8,7 @@ import {
 
 const SharedBreadcrumb = ({ name }: {name :string}) => {
   return (
-    <div className="flex ps-8 py-1 bg-muted">
+    <div className="flex md:ps-8 ps-2 py-1 bg-muted">
       <Separator
         orientation="vertical"
         className="mr-2 data-[orientation=vertical]:h-4"

@@ -14,13 +14,12 @@ import {
   TableRow,
 } from "./table";
 import Pagination from "./pagination";
+import { useState } from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   pageSize?: number;
-  setPage: (page: number) => void;
-  page: number;
   tableRoles?: Record<string, boolean>;
 }
 
@@ -28,20 +27,24 @@ export function DataTable<TData, TValue>({
   columns,
   data,
   pageSize = 10,
-  page = 1,
-  setPage,
   tableRoles,
 }: DataTableProps<TData, TValue>) {
-  const totalPages = Math.ceil((data?.length || 0) / pageSize);
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: pageSize,
+  });
 
   const table = useReactTable({
     data,
     columns,
+    state: { pagination },
     initialState: {
       columnVisibility: tableRoles,
     },
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    onPaginationChange: setPagination,
+    debugTable: true,
   });
 
   return (
@@ -96,8 +99,8 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="w-1/2 m-auto">
-        <Pagination page={page} setPage={setPage} totalPages={totalPages} />
+      <div className="md:w-1/2 m-auto">
+        <Pagination table={table} />
       </div>
     </div>
   );
