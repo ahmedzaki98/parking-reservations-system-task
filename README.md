@@ -22,6 +22,12 @@ A modern React project bootstrapped with Vite, TypeScript, and Yarn, featuring p
 
 ## Run Locally
 
-### Install dependencies:
+1. Install dependencies:
 ```bash
 yarn install
+```
+
+2. Start server:
+```bash
+yarn start
+```
