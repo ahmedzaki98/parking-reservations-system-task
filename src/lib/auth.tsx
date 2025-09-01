@@ -2,11 +2,12 @@ import { z } from "zod";
 import { api, getToken } from "./api-client";
 import { configureAuth } from "react-query-auth";
 import { Navigate } from "react-router-dom";
+import { useAuthStore } from "./auth.store";
 
-interface UserEntity {
+export type UserEntity ={
   id: string;
   username: string;
-  role: string;
+  role: "admin" | "employee";
 }
 export type AuthResponse = {
   data: {
@@ -16,7 +17,7 @@ export type AuthResponse = {
 };
 // eslint-disable-next-line react-refresh/only-export-components
 export const loginInputSchema = z.object({
-  username: z.string().min(5, "REQUIRED").max(70, "USER_NAME_TOO_LONG"),
+  username: z.string().min(3, "REQUIRED").max(70, "USER_NAME_TOO_LONG"),
   password: z.string().min(5, {
     message: "REQUIRED",
   }),
@@ -31,19 +32,19 @@ const loginWithEmailAndPassword = (data: LoginInput): Promise<AuthResponse> => {
 const authConfig = {
   loginFn: async (data: LoginInput) => {
     const response = await loginWithEmailAndPassword(data);
-    console.log("response: ", response);
+    
     //save token on local storage
     if (response?.data?.token) {
       localStorage.setItem("token", response.data.token);
     }
-    // const user = await getUser();
-
-    // useAuthStore.getState().setUser(user);
-    // return user;
+    const user = response.data.user;
+    useAuthStore.getState().setUser(user);
+    return user;
   },
   logoutFn: async () => {
     localStorage.removeItem("token");
-    return null;
+    localStorage.removeItem("user");
+    return;
   },
   userFn: async () => {
     const token = localStorage.getItem("token");
@@ -56,7 +57,7 @@ const authConfig = {
   },
 };
 // eslint-disable-next-line react-refresh/only-export-components
-export const { useLogin, useLogout, AuthLoader } = configureAuth(authConfig);
+export const {useUser, useLogin, useLogout, AuthLoader } = configureAuth(authConfig);
 
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const token = getToken();
@@ -65,5 +66,6 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   if (!token) {
     return <Navigate to="/auth/login" replace />;
   }
+
   return children;
 };
