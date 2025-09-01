@@ -17,7 +17,7 @@ A modern React project bootstrapped with Vite, TypeScript, and Yarn, featuring p
 
 ### Prerequisites
 
-- Node.js >= 14.x
+- Node.js >= 22.x
 - Yarn package manager
 
 ## Run Locally
