@@ -119,13 +119,13 @@ body {
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background-color: var(--accent-foreground);
+  background-color: var(--muted);
   border-radius: 2px;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: var(--accent);
+  background-color: var(--primary-foreground);
   border-radius: 4px;
-  border: 1px solid #d1eafa;
+  /* border: 1px solid var(--primary); */
 }
 
 li::marker {

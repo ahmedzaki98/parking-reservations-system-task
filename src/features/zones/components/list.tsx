@@ -38,8 +38,8 @@ const ZonesList = () => {
   };
 
   return (
-    <div className="m-auto flex w-[95vw] flex-col md:w-full">
-      <h2 className="text-primary mb-8 text-lg font-semibold">Zones List</h2>
+    <div>
+      <h2 className="mb-8 text-lg font-semibold">Zones List</h2>
       <div className="flex gap-4 px-3 md:px-0">
         <DataTable
           tableRoles={tableRoles}
@@ -85,6 +85,61 @@ const ZonesList = () => {
                 return (
                   <span>
                     {occupied} / {totalSlots}
+                  </span>
+                );
+              },
+            },
+            {
+              accessorKey: "free",
+              header: "Free",
+              cell: ({ row }) => {
+                const free = row?.original?.free;
+                return <span>{free}</span>;
+              },
+            },
+            {
+              accessorKey: "reserved",
+              header: "Reserved",
+              cell: ({ row }) => {
+                const reserved = row?.original?.reserved;
+                return <span>{reserved}</span>;
+              },
+            },
+            {
+              accessorKey: "occupied",
+              header: "Occupied",
+              cell: ({ row }) => {
+                const occupied = row?.original?.occupied;
+                return <span>{occupied}</span>;
+              },
+            },
+            {
+              accessorKey: "availableForSubscribers",
+              header: "Available for Subscribers",
+              cell: ({ row }) => {
+                const availableForSubscribers =
+                  row?.original?.availableForSubscribers;
+                return <span>{availableForSubscribers}</span>;
+              },
+            },
+            {
+              accessorKey: "availableForVisitors",
+              header: "Available for Visitors",
+              cell: ({ row }) => {
+                const availableForVisitors =
+                  row?.original?.availableForVisitors;
+                return <span>{availableForVisitors}</span>;
+              },
+            },
+            {
+              accessorKey: "rate",
+              header: "normal/special Rate",
+              cell: ({ row }) => {
+                const rateNormal = row?.original?.rateNormal;
+                const rateSpecial = row?.original?.rateSpecial;
+                return (
+                  <span>
+                    {rateNormal} / {rateSpecial}
                   </span>
                 );
               },

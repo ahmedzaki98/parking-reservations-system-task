@@ -26,11 +26,17 @@ export const websocketRefetch = ({ queryClient, msg }: Props) => {
 
 let refreshTimeout: ReturnType<typeof setTimeout> | null = null;
 
-export const websocketRefetchZones = (queryClient: QueryClient) => {
-  if (refreshTimeout) return;
-
+export const websocketRefetchZones = ({ queryClient, msg }: Props) => {
+  // if (refreshTimeout) return;
+  if (refreshTimeout) {
+    clearTimeout(refreshTimeout);
+  }
   refreshTimeout = setTimeout(() => {
-    queryClient.invalidateQueries({ queryKey: ["zonesGrid"] });
+    if (msg.type === "admin-update") {
+      websocketRefetch({ queryClient, msg });
+    } else {
+      queryClient.invalidateQueries({ queryKey: ["zonesGrid"] });
+    }
     refreshTimeout = null;
   }, 1000);
 };

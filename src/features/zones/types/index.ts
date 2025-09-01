@@ -5,5 +5,11 @@ export type ZonesEntity = {
   gateIds: string[];
   totalSlots: number;
   occupied: number;
+  free: number;
+  reserved: number;
+  availableForVisitors: number;
+  availableForSubscribers: number;
+  rateNormal: number;
+  rateSpecial: number;
   open: boolean;
 };
