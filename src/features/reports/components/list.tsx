@@ -5,7 +5,6 @@ import { CircleCheckBig, CircleX } from "lucide-react";
 const Reports = () => {
   const { data } = useReports();
   const reports = Array.isArray(data?.data) ? data.data : [];
-  
 
   return (
     <div className="m-auto flex w-[95vw] flex-col md:w-full">
@@ -61,7 +60,7 @@ const Reports = () => {
                 return <span>{free}</span>;
               },
             },
-             {
+            {
               accessorKey: "reserved",
               header: "Reserved",
               cell: ({ row }) => {

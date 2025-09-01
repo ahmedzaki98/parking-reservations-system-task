@@ -25,7 +25,9 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             <SidebarTrigger className="-ml-1" />
           </div>
         </header>
-        <main className="mb-4 grid flex-1 items-start gap-4">{children}</main>
+          <main className="@container/main flex flex-1 flex-col gap-4">
+            {children}
+          </main>
         {/* <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
         </div> */}
       </SidebarInset>

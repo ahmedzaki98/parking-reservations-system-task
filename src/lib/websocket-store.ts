@@ -49,12 +49,12 @@ export const useWebSocketStore = create<WebSocketStore>((set, get) => ({
       try {
         const msg: WSMessage = JSON.parse(event.data);
 console.log('msg: ', msg);
-        if (msg.type === "admin-update") {
-          websocketRefetch({ queryClient, msg });
-        }
-        if (msg?.type === "zone-update") {
-          websocketRefetchZones(queryClient);
-        }
+        websocketRefetchZones({ queryClient, msg });
+        // if (msg.type === "admin-update") {
+        //   websocketRefetch({ queryClient, msg });
+        // }
+        // if (msg?.type === "zone-update") {
+        // }
         set((state) => ({ messages: [...state.messages, msg] }));
       } catch (err) {
         console.error("WS parse error:", err);
