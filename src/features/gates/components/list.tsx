@@ -11,9 +11,8 @@ const GatesList = () => {
   //     subscribeToGateMutation.mutate(id);
   //   };
   return (
-    <div className="m-auto flex w-[95vw] flex-col md:w-full">
+    <div className="m-auto flex flex-col w-full">
       <h2 className="mb-8 text-lg font-semibold">Parking Gates</h2>
-      <div className="flex gap-4 px-3 md:px-0">
         <DataTable
           columns={[
             {
@@ -52,7 +51,6 @@ const GatesList = () => {
           data={gates}
         />
       </div>
-    </div>
   );
 };
 

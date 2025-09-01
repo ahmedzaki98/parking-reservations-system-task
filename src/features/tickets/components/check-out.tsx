@@ -32,7 +32,7 @@ const CheckOutForm = () => {
   };
 
   return (
-    <div className="m-auto flex w-[95vw] flex-col md:w-full">
+    <div className="m-auto flex flex-col w-full">
       <h2 className="text-primary mb-8 text-lg font-semibold">Add Check Out</h2>
       <form
         onSubmit={handleSubmit(onSubmit)}

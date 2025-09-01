@@ -1,3 +1,4 @@
+import PageLayout from "@/components/layouts/page-layout";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -33,9 +34,9 @@ export const SubscriptionsViewRoute = () => {
           </Breadcrumb>
         </div>
 
-        <div className="px-8 flex w-full flex-col items-start justify-center md:mt-0">
+        <PageLayout>
           <SubscriptionView />
-        </div>
+        </PageLayout>
       </div>
     </Authorization>
   );

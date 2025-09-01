@@ -38,160 +38,157 @@ const ZonesList = () => {
   };
 
   return (
-    <div>
+    <div className="m-auto flex flex-col w-full">
       <h2 className="mb-8 text-lg font-semibold">Zones List</h2>
-      <div className="flex gap-4 px-3 md:px-0">
-        <DataTable
-          tableRoles={tableRoles}
-          columns={[
-            {
-              accessorKey: "name",
-              header: "Name",
-              cell: ({ row }) => {
-                const name = row?.original?.name;
-                return <span>{name}</span>;
-              },
+      <DataTable
+        tableRoles={tableRoles}
+        columns={[
+          {
+            accessorKey: "name",
+            header: "Name",
+            cell: ({ row }) => {
+              const name = row?.original?.name;
+              return <span>{name}</span>;
             },
-            {
-              accessorKey: "categoryId",
-              header: "Category",
-              cell: ({ row }) => {
-                const categoryId = row?.original?.categoryId;
-                return <span>{categoryId.replace("cat_", "")}</span>;
-              },
+          },
+          {
+            accessorKey: "categoryId",
+            header: "Category",
+            cell: ({ row }) => {
+              const categoryId = row?.original?.categoryId;
+              return <span>{categoryId.replace("cat_", "")}</span>;
             },
-            {
-              accessorKey: "gateIds",
-              header: "Gates",
-              cell: ({ row }) => {
-                const gateIds = row?.original?.gateIds;
-                return (
-                  <>
-                    {gateIds &&
-                      gateIds.length > 0 &&
-                      gateIds?.map((gate, index) => {
-                        return <li key={index}>{gate}</li>;
-                      })}
-                  </>
-                );
-              },
+          },
+          {
+            accessorKey: "gateIds",
+            header: "Gates",
+            cell: ({ row }) => {
+              const gateIds = row?.original?.gateIds;
+              return (
+                <>
+                  {gateIds &&
+                    gateIds.length > 0 &&
+                    gateIds?.map((gate, index) => {
+                      return <li key={index}>{gate}</li>;
+                    })}
+                </>
+              );
             },
-            {
-              accessorKey: "slots",
-              header: "Slots",
-              cell: ({ row }) => {
-                const occupied = row?.original?.occupied;
-                const totalSlots = row?.original?.totalSlots;
-                return (
-                  <span>
-                    {occupied} / {totalSlots}
-                  </span>
-                );
-              },
+          },
+          {
+            accessorKey: "slots",
+            header: "Slots",
+            cell: ({ row }) => {
+              const occupied = row?.original?.occupied;
+              const totalSlots = row?.original?.totalSlots;
+              return (
+                <span>
+                  {occupied} / {totalSlots}
+                </span>
+              );
             },
-            {
-              accessorKey: "free",
-              header: "Free",
-              cell: ({ row }) => {
-                const free = row?.original?.free;
-                return <span>{free}</span>;
-              },
+          },
+          {
+            accessorKey: "free",
+            header: "Free",
+            cell: ({ row }) => {
+              const free = row?.original?.free;
+              return <span>{free}</span>;
             },
-            {
-              accessorKey: "reserved",
-              header: "Reserved",
-              cell: ({ row }) => {
-                const reserved = row?.original?.reserved;
-                return <span>{reserved}</span>;
-              },
+          },
+          {
+            accessorKey: "reserved",
+            header: "Reserved",
+            cell: ({ row }) => {
+              const reserved = row?.original?.reserved;
+              return <span>{reserved}</span>;
             },
-            {
-              accessorKey: "occupied",
-              header: "Occupied",
-              cell: ({ row }) => {
-                const occupied = row?.original?.occupied;
-                return <span>{occupied}</span>;
-              },
+          },
+          {
+            accessorKey: "occupied",
+            header: "Occupied",
+            cell: ({ row }) => {
+              const occupied = row?.original?.occupied;
+              return <span>{occupied}</span>;
             },
-            {
-              accessorKey: "availableForSubscribers",
-              header: "Available for Subscribers",
-              cell: ({ row }) => {
-                const availableForSubscribers =
-                  row?.original?.availableForSubscribers;
-                return <span>{availableForSubscribers}</span>;
-              },
+          },
+          {
+            accessorKey: "availableForSubscribers",
+            header: "Available for Subscribers",
+            cell: ({ row }) => {
+              const availableForSubscribers =
+                row?.original?.availableForSubscribers;
+              return <span>{availableForSubscribers}</span>;
             },
-            {
-              accessorKey: "availableForVisitors",
-              header: "Available for Visitors",
-              cell: ({ row }) => {
-                const availableForVisitors =
-                  row?.original?.availableForVisitors;
-                return <span>{availableForVisitors}</span>;
-              },
+          },
+          {
+            accessorKey: "availableForVisitors",
+            header: "Available for Visitors",
+            cell: ({ row }) => {
+              const availableForVisitors = row?.original?.availableForVisitors;
+              return <span>{availableForVisitors}</span>;
             },
-            {
-              accessorKey: "rate",
-              header: "normal/special Rate",
-              cell: ({ row }) => {
-                const rateNormal = row?.original?.rateNormal;
-                const rateSpecial = row?.original?.rateSpecial;
-                return (
-                  <span>
-                    {rateNormal} / {rateSpecial}
-                  </span>
-                );
-              },
+          },
+          {
+            accessorKey: "rate",
+            header: "normal/special Rate",
+            cell: ({ row }) => {
+              const rateNormal = row?.original?.rateNormal;
+              const rateSpecial = row?.original?.rateSpecial;
+              return (
+                <span>
+                  {rateNormal} / {rateSpecial}
+                </span>
+              );
             },
-            {
-              accessorKey: "status",
-              header: "Status",
-              cell: ({ row }) => {
-                const open = row?.original?.open;
-                return (
-                  <div className="border rounded-2xl border-muted text-sm w-fit py-1 text-muted-foreground px-1.5">
-                    {open ? (
-                      <span className="flex gap-1 items-center">
-                        <CircleCheckBig className="size-4 text-green-400" />
-                        Open
-                      </span>
-                    ) : (
-                      <span className="flex gap-1 items-center">
-                        <CircleX className="size-4 text-red-400" />
-                        Closed
-                      </span>
-                    )}
-                  </div>
-                );
-              },
+          },
+          {
+            accessorKey: "status",
+            header: "Status",
+            cell: ({ row }) => {
+              const open = row?.original?.open;
+              return (
+                <div className="border rounded-2xl border-muted text-sm w-fit py-1 text-muted-foreground px-1.5">
+                  {open ? (
+                    <span className="flex gap-1 items-center">
+                      <CircleCheckBig className="size-4 text-green-400" />
+                      Open
+                    </span>
+                  ) : (
+                    <span className="flex gap-1 items-center">
+                      <CircleX className="size-4 text-red-400" />
+                      Closed
+                    </span>
+                  )}
+                </div>
+              );
             },
-            {
-              accessorKey: "actions",
-              header: "Actions",
-              cell: ({ row }) => {
-                const open = row?.original?.open;
-                const id = row?.original?.id;
-                const gateIds = row?.original?.gateIds;
+          },
+          {
+            accessorKey: "actions",
+            header: "Actions",
+            cell: ({ row }) => {
+              const open = row?.original?.open;
+              const id = row?.original?.id;
+              const gateIds = row?.original?.gateIds;
 
-                return (
-                  <Button
-                    variant="outline"
-                    className={cn(
-                      "text-white px-3 py-1 rounded-xl",
-                      open ? "hover:bg-red-500!" : "hover:bg-green-500!"
-                    )}
-                    onClick={() => handleMarkZoneOpenClose(id, gateIds)}
-                  >
-                    {open ? "Close" : "Open"}
-                  </Button>
-                );
-              },
+              return (
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "text-white px-3 py-1 rounded-xl",
+                    open ? "hover:bg-red-500!" : "hover:bg-green-500!"
+                  )}
+                  onClick={() => handleMarkZoneOpenClose(id, gateIds)}
+                >
+                  {open ? "Close" : "Open"}
+                </Button>
+              );
             },
-          ]}
-          data={zones}
-        />
-      </div>
+          },
+        ]}
+        data={zones}
+      />
     </div>
   );
 };
