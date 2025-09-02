@@ -50,3 +50,32 @@ export const optionStyle = {
     color: "black",
   },
 };
+
+
+export function equal(
+  a: string | Record<string, string>,
+  b: string | Record<string, string>
+): boolean {
+  if (a === b) return true;
+
+  if (
+    typeof a !== "object" ||
+    typeof b !== "object" ||
+    a == null ||
+    b == null
+  ) {
+    return false;
+  }
+
+  const keysA = Object.keys(a);
+  const keysB = Object.keys(b);
+
+  if (keysA.length !== keysB.length) return false;
+
+  for (const key of keysA) {
+    if (!keysB.includes(key)) return false;
+    if (!equal(a[key], b[key])) return false;
+  }
+
+  return true;
+}

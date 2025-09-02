@@ -12,12 +12,12 @@ export const websocketRefetch = ({ queryClient, msg }: Props) => {
     case "category-rates-changed":
       queryClient.invalidateQueries({ queryKey: ["categoriesGrid"] });
       break;
-    case "rush-updated":
-      queryClient.invalidateQueries({ queryKey: ["rushGrid"] });
-      break;
-    case "vacation-added":
-      queryClient.invalidateQueries({ queryKey: ["vacation"] });
-      break;
+    // case "rush-updated":
+    //   queryClient.invalidateQueries({ queryKey: ["rushGrid"] });
+    //   break;
+    // case "vacation-added":
+    //   queryClient.invalidateQueries({ queryKey: ["vacation"] });
+    //   break;
 
     default:
       break;

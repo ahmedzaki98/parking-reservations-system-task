@@ -2,27 +2,34 @@ import { create } from "zustand";
 
 export type WSMessage = {
   type: string;
+  id?: string;
   payload: Record<string, string>;
 };
 import { QueryClient } from "@tanstack/react-query";
-import { websocketRefetch, websocketRefetchZones } from "./websocket-refetch";
+import { websocketRefetchZones } from "./websocket-refetch";
+import {
+  loadFromLocalStorage,
+  saveToLocalStorage,
+} from "@/utils/local-storage";
+import { equal } from "@/utils/helper";
+import { uuidv4 } from "zod";
 
 type WebSocketStore = {
   socket: WebSocket | null;
   messages: WSMessage[];
   subscribedGates: string[];
   isConnected: boolean;
-  // refreshKey: number;
+  setMessages: (messages: WSMessage[]) => void;
   connect: (queryClient: QueryClient) => void;
-  // triggerZonesRefresh: () => void;
   subscribeToGate: (gateId: string) => void;
   send: (msg: WSMessage) => void;
 };
 const WEBSOCKET_URL = import.meta.env.VITE_APP_WEBSOCKET_URL;
+const LOCAL_STORAGE_KEY = "ws_messages";
 
 export const useWebSocketStore = create<WebSocketStore>((set, get) => ({
   socket: null,
-  messages: [],
+  messages: loadFromLocalStorage<WSMessage[]>(LOCAL_STORAGE_KEY) || [],
   subscribedGates: [],
   isConnected: false,
 
@@ -48,14 +55,22 @@ export const useWebSocketStore = create<WebSocketStore>((set, get) => ({
     socket.onmessage = (event) => {
       try {
         const msg: WSMessage = JSON.parse(event.data);
-console.log('msg: ', msg);
         websocketRefetchZones({ queryClient, msg });
-        // if (msg.type === "admin-update") {
-        //   websocketRefetch({ queryClient, msg });
-        // }
-        // if (msg?.type === "zone-update") {
-        // }
-        set((state) => ({ messages: [...state.messages, msg] }));
+        set((state) => {
+          const foundMessage = get().messages.find(
+            (m) => m.type === msg.type && equal(m.payload, msg.payload)
+          );
+          if (foundMessage) return {};
+          const newMessage = { ...msg, id: crypto.randomUUID?.() ?? uuidv4() };
+          const updatedMessages = [...state.messages, newMessage];
+          const filteredMessages = updatedMessages.filter(
+            (msg) => msg.type !== "admin-update"
+          );
+
+          saveToLocalStorage(LOCAL_STORAGE_KEY, filteredMessages);
+
+          return { messages: filteredMessages };
+        });
       } catch (err) {
         console.error("WS parse error:", err);
       }
@@ -84,12 +99,9 @@ console.log('msg: ', msg);
       socket.send(JSON.stringify(msg));
     }
   },
-  // triggerZonesRefresh: () => {
-  //   if (refreshTimeout) return;
-
-  //   refreshTimeout = setTimeout(() => {
-  //     set((state) => ({ refreshKey: state.refreshKey + 1 }));
-  //     refreshTimeout = null;
-  //   }, 1000);
-  // },
+  setMessages: (messages: WSMessage[]) => {
+    localStorage.removeItem(LOCAL_STORAGE_KEY);
+    set({ messages });
+    saveToLocalStorage(LOCAL_STORAGE_KEY, messages);
+  },
 }));

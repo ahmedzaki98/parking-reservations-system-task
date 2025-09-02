@@ -131,3 +131,6 @@ body {
 li::marker {
   color: var(--color-primary);
 }
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}

@@ -44,6 +44,7 @@ const authConfig = {
   logoutFn: async () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("ws_messages");
     return;
   },
   userFn: async () => {

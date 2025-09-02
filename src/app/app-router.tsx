@@ -1,11 +1,8 @@
 import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
-import { Spinner } from "../components/ui/spinner";
 import { ProtectedRoute } from "../lib/auth";
 import { DashboardLayout } from "@/components/layouts/dashboard-layout";
+import PageSpinner from "@/components/page-spinner";
 
-// const checkAuth = () => {
-//   return localStorage.getItem("token"); // or cookies/session
-// };
 
 export const createAppRouter = () =>
   createBrowserRouter([
@@ -16,9 +13,7 @@ export const createAppRouter = () =>
     {
       path: "/auth/login",
       hydrateFallbackElement: (
-        <div className="flex h-screen w-screen items-center justify-center">
-          <Spinner />
-        </div>
+       <PageSpinner />
       ),
       lazy: async () => {
         const { LoginRoute } = await import("./routes/auth/login");
@@ -36,19 +31,13 @@ export const createAppRouter = () =>
         </ProtectedRoute>
       ),
       hydrateFallbackElement: (
-        <div className="flex h-screen w-screen items-center justify-center">
-          <Spinner />
-        </div>
+        <PageSpinner />
       ),
       children: [
         // zones
         {
           path: "/app/zones",
-          hydrateFallbackElement: (
-            <div className="flex h-screen w-screen items-center justify-center">
-              <Spinner />
-            </div>
-          ),
+          hydrateFallbackElement: <PageSpinner />,
           lazy: async () => {
             const { ZonesRoute } = await import("./routes/app/zones/list");
             return { Component: ZonesRoute };
@@ -59,9 +48,7 @@ export const createAppRouter = () =>
         {
           path: "/app/categories",
           hydrateFallbackElement: (
-            <div className="flex h-screen w-screen items-center justify-center">
-              <Spinner />
-            </div>
+           <PageSpinner />
           ),
           lazy: async () => {
             const { CategoriesRoute } = await import(
@@ -75,9 +62,7 @@ export const createAppRouter = () =>
         {
           path: "/app/gates",
           hydrateFallbackElement: (
-            <div className="flex h-screen w-screen items-center justify-center">
-              <Spinner />
-            </div>
+            <PageSpinner />
           ),
           lazy: async () => {
             const { GatesRoute } = await import("./routes/app/gates/list");
@@ -89,9 +74,7 @@ export const createAppRouter = () =>
         {
           path: "/app/subscriptions",
           hydrateFallbackElement: (
-            <div className="flex h-screen w-screen items-center justify-center">
-              <Spinner />
-            </div>
+           <PageSpinner />
           ),
           lazy: async () => {
             const { SubscriptionsRoute } = await import(
@@ -103,9 +86,7 @@ export const createAppRouter = () =>
         {
           path: "/app/subscriptions/view/:id",
           hydrateFallbackElement: (
-            <div className="flex h-screen w-screen items-center justify-center">
-              <Spinner />
-            </div>
+            <PageSpinner />
           ),
           lazy: async () => {
             const { SubscriptionsViewRoute } = await import(
@@ -114,28 +95,11 @@ export const createAppRouter = () =>
             return { Component: SubscriptionsViewRoute };
           },
         },
-        // {
-        //   path: "/app/subscriptions/ticket/:id",
-        //   hydrateFallbackElement: (
-        //     <div className="flex h-screen w-screen items-center justify-center">
-        //       <Spinner />
-        //     </div>
-        //   ),
-        //   lazy: async () => {
-        //     const { TicketViewRoute } = await import(
-        //       "./routes/app/subscriptions/ticket"
-        //     );
-        //     return { Component: TicketViewRoute };
-        //   },
-        // },
-        //
         // tickets
         {
           path: "/app/check-in",
           hydrateFallbackElement: (
-            <div className="flex h-screen w-screen items-center justify-center">
-              <Spinner />
-            </div>
+           <PageSpinner />
           ),
           lazy: async () => {
             const { CheckInRoute } = await import(
@@ -147,9 +111,7 @@ export const createAppRouter = () =>
         {
           path: "/app/check-out",
           hydrateFallbackElement: (
-            <div className="flex h-screen w-screen items-center justify-center">
-              <Spinner />
-            </div>
+           <PageSpinner />
           ),
           lazy: async () => {
             const { CheckOutRoute } = await import(
@@ -163,9 +125,7 @@ export const createAppRouter = () =>
         {
           path: "/app/reports",
           hydrateFallbackElement: (
-            <div className="flex h-screen w-screen items-center justify-center">
-              <Spinner />
-            </div>
+           <PageSpinner />
           ),
           lazy: async () => {
             const { ReportsRoute } = await import("./routes/app/reports/list");
@@ -177,9 +137,7 @@ export const createAppRouter = () =>
         {
           path: "/app/rush-hours",
           hydrateFallbackElement: (
-            <div className="flex h-screen w-screen items-center justify-center">
-              <Spinner />
-            </div>
+            <PageSpinner />
           ),
           lazy: async () => {
             const { RushHoursRoute } = await import(
@@ -193,9 +151,7 @@ export const createAppRouter = () =>
         {
           path: "/app/vacations",
           hydrateFallbackElement: (
-            <div className="flex h-screen w-screen items-center justify-center">
-              <Spinner />
-            </div>
+           <PageSpinner />
           ),
           lazy: async () => {
             const { addVacationRoute } = await import(
