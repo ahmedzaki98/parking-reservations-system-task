@@ -13,7 +13,7 @@ export const addVacation = (
     data: ZonesEntity;
   };
 }> => {
-  const url = "/admin/rush-hours";
+  const url = "/admin/vacations";
   const filteredData = removeEmptyKeys(data);
 
   return api.post(url, filteredData);
@@ -30,7 +30,7 @@ export const useAddVacation= (reset?: () => void) => {
 
       ShowToast({
         type: "success",
-        message: "you added a rush hour successfully",
+        message: "you added a vacation successfully",
       });
       reset?.();
     },

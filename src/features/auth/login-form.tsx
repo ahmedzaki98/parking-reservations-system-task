@@ -32,7 +32,7 @@ const LoginForm = () => {
 
   const login = useLogin({
     onSuccess: () => {
-      navigate("/app/dashboard", {
+      navigate("/app/zones", {
         replace: true,
       });
     },

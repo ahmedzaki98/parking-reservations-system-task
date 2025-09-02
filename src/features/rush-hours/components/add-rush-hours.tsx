@@ -1,11 +1,10 @@
-import Select from "react-select";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/form/input";
 import { Button } from "@/components/ui/button";
-import { useAddRushHour } from "../api/add-rush-hour";
-import { optionStyle, selectStyle, singleValueStyle } from "@/utils/helper";
+import { useAddRushHour } from "../api/add-rush-hour";  
+import { SelectInput } from "@/components/form/select";
 
 // Zod schema for validation
 const schema = z
@@ -78,22 +77,11 @@ const RushHourForm = () => {
             name="weekDay"
             control={control}
             render={({ field }) => (
-              <Select
-                {...field}
+              <SelectInput
+                field={field}
                 options={weekDayOptions}
                 placeholder="Select a day"
-                isClearable
-                styles={{
-                  control: (base) => ({ ...base, ...selectStyle }),
-                  singleValue: (base) => ({ ...base, ...singleValueStyle }),
-                  option: (base) => ({ ...base, ...optionStyle }),
-                }}
-                // onChange={(val) => field.onChange(val)}
                 onChange={(val) => field.onChange(val)}
-                // value={
-                //   weekDayOptions.find((option) => option.value === field.value) ||
-                //   null
-                // }
               />
             )}
           />

@@ -56,7 +56,7 @@ const ZonesList = () => {
             header: "Category",
             cell: ({ row }) => {
               const categoryId = row?.original?.categoryId;
-              return <span>{categoryId.replace("cat_", "")}</span>;
+              return <span>{categoryId?.replace("cat_", "")}</span>;
             },
           },
           {
